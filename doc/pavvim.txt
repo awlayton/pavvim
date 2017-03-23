@@ -1,0 +1,74 @@
+*pavvim.txt*
+
+                              PAVVIM MANUAL
+
+1. About                                                        |pavvim-about|
+2. Configuration                                            |pavvim-configure|
+3. Functions                                                |pavvim-functions|
+
+==============================================================================
+1. About                                                        *pavvim-about*
+
+Pavvim provides functions for controlling a Pavlok with Vimscript.
+
+==============================================================================
+2. Configuration                                            *pavvim-configure*
+
+To make use of pavvim, you will need a client registration for the Pavlok API.
+Clients can be registered at http://pavlok-mvp.herokuapp.com/oauth/applications
+
+For now pavvim tries to open up a browser for the user to authorize it.
+After allowing it, the user has to copy-paste an access code from the browser
+into vim when prompted.
+I do not really like this whole ordeal, but have yet to come up with a fix.
+
+g:pavvim#client_id                                        *g:pavvim#client_id*
+
+  Set this to whatever client ID Pavlok gave you.
+
+g:pavvim#client_secret                                *g:pavvim#client_secret*
+
+  Set this to whatever client secret Pavlok gave you.
+
+g:pavvim#redirect_uri                                  *g:pavvim#redirect_uri*
+
+  This should probably be left the default of `'urn:ietf:wg:oauth:2.0:oob'`,
+  at least for now.
+  Be sure this is the one you registered for your client.
+
+g:pavvim#tokfile                                            *g:pavvim#tokfile*
+
+ A path to a file in which to store the access token.
+ Defaults to `'~/.vim/pavvim_token'`.
+ Setting this to `''` will disable storing the token in a file.
+
+==============================================================================
+3. Functions                                                *pavvim-functions*
+
+pavvim#stimulus(stimulus, value, [message])                *pavvim#stimulus()*
+
+  General function for sending stimuli.
+  A `stimulus` is one of `vibration`, `shock`, `beep`, or `led`.
+  The `value` is the intensity of the stimulus, ranging from `1` to `255`.
+  An option `message` can be given to specify the reason for the stimulus.
+
+pavvim#vibrate(value, [message])                            *pavvim#vibrate()*
+
+  Convenience function equivalent to
+  `pavvim#stimulus('vibration', value, [message])`
+
+pavvim#zap(value, [message])                                    *pavvim#zap()*
+
+  Convenience function equivalent to
+  `pavvim#stimulus('shock', value, [message])`
+
+pavvim#beep(value, [message])                                  *pavvim#beep()*
+
+  Convenience function equivalent to
+  `pavvim#stimulus('beep', value, [message])`
+
+pavvim#led(value, [message])                                    *pavvim#led()*
+
+  Convenience function equivalent to
+  `pavvim#stimulus('led', value, [message])`
+
