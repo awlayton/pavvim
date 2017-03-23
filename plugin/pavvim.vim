@@ -55,8 +55,11 @@ function pavvim#stimulus(stimulus, value, ...)
     let l:url = s:api_url . 'stimuli/' . a:stimulus . '/' . a:value
     let l:body = {'reason': l:message}
     let l:headers = {'authorization': 'Bearer ' . g:pavvim#token}
-    call webapi#http#post(l:url, l:body, l:headers)
-    return ''
+
+    let l:resp = webapi#http#post(l:url, l:body, l:headers)
+    if l:resp.status != 200
+        echoe l:resp.content
+    endif
 endfunction
 
 function pavvim#vibrate(value, ...)
